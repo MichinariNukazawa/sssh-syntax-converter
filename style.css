@@ -19,6 +19,15 @@
 		margin: 2px;
 		margin-top: 10px;
 	}
+	.left {
+		float:left;
+		width:60%;
+	}
+	.right {
+		float:right;
+		width:35%;
+		border:1px red solid;
+	}
 
 	.text{
 		font-size: 80%;
@@ -29,5 +38,17 @@
 		margin: 5px;
 		width: 95%;
 		max-height: 400px;
+	}
+
+	/* 以下2つはクラス内のをfloatを解除する"crearfix"手法 */
+	.clearfix:after {
+		content: ".";  /* 新しい要素を作る */
+		display: block;  /* ブロックレベル要素に */
+		clear: both;
+		height: 0;
+		visibility: hidden;
+	}
+	.clearfix {
+		  min-height: 1px;
 	}
 

@@ -7,13 +7,14 @@
 	-->
 	<script type="text/javascript" src="scripts.js"></script>
 	<LINK href="style.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="tracks.js"></script>
 
 
 
 </head>
 <body>
 	<h1>SSSH<font size="-1"> -Standalone Static Syntax Highlight builder-</font></h1>
-
+<div class="left">
 	<h2>使い方</h2>
 	<div class="text">
 	・「ソースコード」にコードを貼る<br />
@@ -79,6 +80,29 @@ class1
 		 cols="50" rows="12" id="html_output" readonly>
 		</textarea>
 		<br />
-		
+	</div>
+	<div class="right">
+		<br />
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<!-- sssh-ad2-300x600 -->
+		<ins class="adsbygoogle"
+		style="display:inline-block;width:300px;height:600px"
+		data-ad-client="ca-pub-5057531329998733"
+		data-ad-slot="1781522409"></ins>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</div>
+	<div class="clearfix">
+		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<!-- sssh-ad1 -->
+		<ins class="adsbygoogle"
+			style="display:inline-block;width:728px;height:90px"
+				data-ad-client="ca-pub-5057531329998733"
+				data-ad-slot="9583990806"></ins>
+		<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</div>
 </body>
 </html>
