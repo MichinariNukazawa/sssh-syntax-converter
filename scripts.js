@@ -149,7 +149,8 @@
 
 		var keywords = new Array('style', 'width', 'height', 'class', 'id', 
 				'action', 'method', 'type', 'name', 'value',
-				'rel', 'href', 'src');
+				'rel', 'href', 'src', 'rows', 'cols',
+				'http-equiv', 'content', 'charset', 'enctype', 'size');
 		for ( var i = 0; i < keywords.length; i++){
 			// 属性レベル
 			// 注意：置換済みの空白が書き換わった際に追従する必要がある
