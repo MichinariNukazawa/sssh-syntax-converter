@@ -124,13 +124,18 @@
 	}
 
 	// HTMLシンタックスハイライト(<>をカラー表示)
-	function syntax_html(code, color){
+	function syntax_html(code, tag_color, comment_color){
 		code = html_keyword(code);
-		if (typeof color === "undefined"){
-			color = '#008800'; // 緑
+		if (typeof tag_color === "undefined"){
+			tag_color = '#008800'; // 緑
 		}
-		replace = '<span style="color:' + color + '">$1</span>';
-		code = code.replace(/(&lt;(.*?)&gt;)/g, replace);
+		if (typeof comment_color === "undefined"){
+			comment_color = '#2266aa'; // 青
+		}
+		replace = '<span style="color:' + tag_color + '">$1</span>';
+		code = code.replace(/(&lt;[^!](.*?)&gt;)/g, replace);
+		replace = '<span style="color:' + comment_color + '">$1</span>';
+		code = code.replace(/(&lt;!(.*?)&gt;)/g, replace);
 		return code;
 	}
 
