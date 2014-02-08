@@ -125,7 +125,7 @@
 
 	// HTMLシンタックスハイライト(<>をカラー表示)
 	function syntax_html(code, color){
-		code = keyword_html(code);
+		code = html_keyword(code);
 		if (typeof color === "undefined"){
 			color = '#008800'; // 緑
 		}
@@ -135,7 +135,7 @@
 	}
 
 	// HTMLキーワード(予約語)ハイライト
-	function keyword_html(code){
+	function html_keyword(code){
 		var regex;
 		// <>で囲われた範囲内の予約後をハイライトする
 		// 要素レベル
@@ -146,10 +146,12 @@
 				'action', 'method', 'type', 'name', 'value');
 		for ( var i = 0; i < keywords.length; i++){
 			// 属性レベル
-			regex = new RegExp('(&lt;.*?\\s)('+ keywords[i] +')(=.*&gt;)', 'g');
-			var color = '#000088';
-			replace = '$1<span style="color:' + color + '">$2</span>$3';
-			//code = code.replace(regex, replace);
+			// 注意：置換済みの空白が書き換わった際に追従する必要がある
+			regex = new RegExp('(&lt;.*?;)('+ keywords[i] +')((?:.*?;?)=(?:.*?;?))(&quot;.*?&quot;)(.*&gt;)', 'g');
+			var attr_color = '#000088'; // 属性色
+			var value_color = '#880000'; // 値色
+			replace = '$1<span style="color:' + attr_color + '">$2</span>$3'
+				+ '<span style="color:' + value_color + '">$4</span>$5';
 			code = code.replace(regex, replace);
 		}
 		return code;
