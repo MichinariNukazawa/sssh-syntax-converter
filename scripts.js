@@ -143,11 +143,12 @@
 		//		|form|input|select|option)(.*&gt;)/');
 
 		var keywords = new Array('style', 'width', 'height', 'class', 'id', 
-				'action', 'method', 'type', 'name', 'value');
+				'action', 'method', 'type', 'name', 'value',
+				'rel', 'href', 'src');
 		for ( var i = 0; i < keywords.length; i++){
 			// 属性レベル
 			// 注意：置換済みの空白が書き換わった際に追従する必要がある
-			regex = new RegExp('(&lt;.*?;)('+ keywords[i] +')((?:.*?;?)=(?:.*?;?))(&quot;.*?&quot;)(.*&gt;)', 'g');
+			regex = new RegExp('(&lt;.*?&ensp;)('+ keywords[i] +')((?:.*?;?)=(?:.*?;?))(&quot;.*?&quot;)(.*&gt;)', 'g');
 			var attr_color = '#000088'; // 属性色
 			var value_color = '#880000'; // 値色
 			replace = '$1<span style="color:' + attr_color + '">$2</span>$3'
