@@ -172,8 +172,13 @@ function html_spliter(code){
 
 // JavaScriptをハイライトする
 function syntax_js(code){
+	var keywords = new Array('break', 'case', 'catch', 'continue', 'debugger',
+			'default', 'delete', 'do', 'else', 'finally', 'for', 'function',
+			'if', 'instanceof', 'new', 'return', 'switch', 'this',
+			'throw', 'try', 'typeof', 'var', 'void', 'while', 'with');
+			//'in', 
 	// console.log('catch js:'+ code);
-	code = syntax_c_like(code);
+	code = syntax_c_like(code, keywords);
 	return code;
 }
 
@@ -225,20 +230,25 @@ function html_keyword_within_tag(code){
 
 // C言語をシンタックスハイライトする
 function syntax_c(code){
-	code = syntax_c_like(code);
+	var keywords_func = new Array('return', 'goto', 'if', 'else', 'switch', 'case',
+			'default', 'break', 'for', 'while', 'do', 'continue', 'sizeof');
+	var keywords = keywords_func;
+	code = syntax_c_like(code, keywords);
 	return code;
 }
 
 // C系言語をシンタックスハイライトする
-function syntax_c_like(code){
+function syntax_c_like(code, keywords){
 	var src = code;
 	var dst = '';
+	var src_match;
 	var quot_match;
 
 	// どちらかのクオーテーション['"]またはコメントの開始とその前後で区切る
 	while (null !== (src_match = src.match(/([\s\S]*?)(&quot;|&#039;|\/\*)([\s\S]*)/))){
 		// 囲われていない範囲は予約語をシンタックスハイライトする
-		dst += syntax_c_like_keywords(src_match[1]);
+		dst += syntax_c_like_keywords(src_match[1], keywords);
+		console.log('chk :' );
 		if ( null === (quot_match = src_match[3].match(/([\s\S]*?)(&quot;|&#039;|\*\/)([\s\S]*)/))){
 			// 末尾が見つからなかったので終了
 			console.log('no match place');
@@ -263,8 +273,32 @@ function syntax_c_like(code){
 
 
 // C系言語の予約語をハイライトする
-function syntax_c_like_keywords(code){
-	// FIXME: 未実装
-	return code;
+// 第2引数で、キーワードリストを受け取る
+function syntax_c_like_keywords(code, keywords){
+	if(typeof keywords === "undefined"){
+		console.log('syntax_c_like_keywords :undefined keywords');
+		return code;
+	}
+	var src = code;
+	var dst = '';
+	var color = '#005c99';
+
+	var keywords_joined = keywords[0];
+	for (var i = 1; i < keywords.length; i++){
+		keywords_joined += '|' + keywords[i];
+	}
+	console.log('code :' + src);
+
+	// 予約語の前に行頭または空白が存在する
+	// 予約語の後ろに行末または空白または'('が存在する
+	regex = new RegExp('([\\s\\S]*?)('+ keywords_joined +')([\\s\\S]*)');
+	while (null !== (src_match = src.match(regex))){
+		console.log("match");
+		dst += src_match[1];
+		dst += '<font color="' + color + '">' + src_match[2] + '</font>';
+		src = src_match[3];
+	}
+	dst += src;
+	return dst;
 }
 
