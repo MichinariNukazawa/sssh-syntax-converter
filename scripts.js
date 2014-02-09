@@ -145,18 +145,18 @@ function html_spliter(code){
 			dst += '<font color="#dd2200">' + src_match[2] + '</font>';
 			src = src_match[3];		// 残りのすべてを次の未処理文字列へ。
 		}else{
-			dst += html_tab_syntax(src_match[2]);	// タブ内の属性と値をハイライト
+			dst += html_tag(src_match[2]);	// タブ内の属性と値をハイライト
 			if (-1 != src_match[2].search(/&lt;(&.*?;)?script/i)){	//jsの場合
 				if (null === (js_match = src_match[3].match(/([\s\S]*?)(&lt;\/script.*?&gt;[\s\S]*)/i))){
 					// scriptタグの末尾が見つからなかった
 					// 未処理文字列をすべてJS扱いした後にbreak;
 					console.log('script tag footer is not detect');
-					dst += js_syntax(src_match[3]);
+					dst += syntax_js(src_match[3]);
 					src = '';
 				}else{
 					// console.log('script tag footer detect');
 					// scriptタグ末尾までをハイライトする。
-					dst += js_syntax(js_match[1]);
+					dst += syntax_js(js_match[1]);
 					src = js_match[2];
 				}
 			}else{
@@ -170,16 +170,19 @@ function html_spliter(code){
 	return dst;
 }
 
-function js_syntax(code){
+// JavaScriptをハイライトする
+function syntax_js(code){
 	// console.log('catch js:'+ code);
 	code = syntax_c_like(code);
 	return code;
 }
 
 
-function html_tab_syntax(code){
+// HTMLのタグをハイライトする
+function html_tag(code){
 	// console.log('html_tag_syntax :' + code);
-	code = html_keyword(code);
+	// タグ内のキーワードをハイライト
+	code = html_keyword_within_tag(code);
 	// タグ(<>)をカラー表示
 	if (typeof tag_color === "undefined"){
 		tag_color = '#008800'; // 緑
@@ -196,7 +199,7 @@ function html_tab_syntax(code){
 }
 
 // HTMLキーワード(予約語)ハイライト
-function html_keyword(code){
+function html_keyword_within_tag(code){
 	var regex;
 	// <>で囲われた範囲内の予約後をハイライトする
 	// 要素レベル
@@ -220,12 +223,13 @@ function html_keyword(code){
 	return code;
 }
 
-// C系言語をシンタックスハイライトする
+// C言語をシンタックスハイライトする
 function syntax_c(code){
 	code = syntax_c_like(code);
 	return code;
 }
 
+// C系言語をシンタックスハイライトする
 function syntax_c_like(code){
 	var src = code;
 	var dst = '';
@@ -258,6 +262,7 @@ function syntax_c_like(code){
 }
 
 
+// C系言語の予約語をハイライトする
 function syntax_c_like_keywords(code){
 	// FIXME: 未実装
 	return code;
