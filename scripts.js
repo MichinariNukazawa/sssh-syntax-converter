@@ -123,9 +123,13 @@
 		return code ;
 	}
 
-	// HTMLシンタックスハイライト(<>をカラー表示)
+	// HTMLシンタックスハイライト
 	function syntax_html(code, tag_color, comment_color){
+		// htmlをタグで切り分ける
+		html_spliter(code);
+		// キーワード(予約語)ハイライト
 		code = html_keyword(code);
+		// タグ(<>)をカラー表示
 		if (typeof tag_color === "undefined"){
 			tag_color = '#008800'; // 緑
 		}
@@ -137,6 +141,56 @@
 		replace = '<span style="color:' + comment_color + '">$1</span>';
 		code = code.replace(/(&lt;!(.*?)&gt;)/g, replace);
 		return code;
+	}
+
+	function html_spliter(code){
+		var src = code;
+		var dst = '';	// 処理済み文字列
+		// タグが見つからなくなるまでまでループ
+		// タグ前、タグおよびその中身、タグ後に切り分ける
+		while (null !== (src_match = src.match(/(.*?)(&lt;(?:.*?)&gt;)([\s\S]*)/))){
+			console.log('detect tag:' +src_match[2]);
+			dst += src_match[1];	// タグ前を処理済み文字列に連結
+			dst += html_tab_syntax(src_match[2]);	// タブ内の属性と値をハイライト
+			// 未処理部分はscriptタグであるか否かで扱いが異なる
+			if (-1 != src_match[2].search(/&lt;\s*script/i)){
+				console.log('detect script tag :' + src_match[2]);
+//				console.log('after words :' + src_match[3]);
+				// scriptタグを検出したので、</script>までJSとしてハイライトを行う
+				if (null === (js_match = src_match[3].match(/([\s\S]*?)(&lt;.?script.*?&gt;)([\s\S]*)/i))){
+					// scriptタグが末尾に到達しなかったので未処理文字列をすべてJS扱いした後にbreak;
+					console.log('script tag footer is not detect');
+					dst += js_syntax(src_match[3]);
+					src = '';
+				}else{
+					console.log('script tag footer detect');
+					// 末尾までをハイライトする。
+					dst += js_syntax(js_match[1]);
+					dst += js_match[2];
+					src = js_match[3];
+				}
+			}
+			else if( src_match[2].search(/&lt;\?php/i)){
+				// PHPタグを検出したので、?>までPHPとしてハイライトを行う
+				// 未実装!
+				src = src_match[3];		// 残りのすべてを次の未処理文字列へ。
+			}else{
+				src = src_match[3];		// 残りのすべてを次の未処理文字列へ。
+			}
+		}
+		// ここに来た時点で残っている未処理文字列を処理済みに連結
+		dst += src;
+	}
+
+	function js_syntax(code){
+		//console.log('catch js');
+		console.log('catch js:'+ code);
+		return code;
+	}
+
+
+	function html_tab_syntax(code){
+		return html_keyword(code);
 	}
 
 	// HTMLキーワード(予約語)ハイライト
