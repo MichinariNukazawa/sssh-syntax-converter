@@ -146,8 +146,8 @@ function html_spliter(code){
 			src = src_match[3];		// 残りのすべてを次の未処理文字列へ。
 		}else{
 			dst += html_tab_syntax(src_match[2]);	// タブ内の属性と値をハイライト
-			if (-1 != src_match[2].search(/&lt;\s*script/i)){	//jsの場合
-				if (null === (js_match = src_match[3].match(/([\s\S]*?)(&lt;.?script.*?&gt;[\s\S]*)/i))){
+			if (-1 != src_match[2].search(/&lt;(&.*?;)?script/i)){	//jsの場合
+				if (null === (js_match = src_match[3].match(/([\s\S]*?)(&lt;\/script.*?&gt;[\s\S]*)/i))){
 					// scriptタグの末尾が見つからなかった
 					// 未処理文字列をすべてJS扱いした後にbreak;
 					console.log('script tag footer is not detect');
@@ -172,6 +172,7 @@ function html_spliter(code){
 
 function js_syntax(code){
 	// console.log('catch js:'+ code);
+	code = syntax_c_like(code);
 	return code;
 }
 
@@ -221,6 +222,44 @@ function html_keyword(code){
 
 // C系言語をシンタックスハイライトする
 function syntax_c(code){
+	code = syntax_c_like(code);
+	return code;
+}
+
+function syntax_c_like(code){
+	var src = code;
+	var dst = '';
+	var quot_match;
+
+	// どちらかのクオーテーション['"]またはコメントの開始とその前後で区切る
+	while (null !== (src_match = src.match(/([\s\S]*?)(&quot;|&#039;|\/\*)([\s\S]*)/))){
+		// 囲われていない範囲は予約語をシンタックスハイライトする
+		dst += syntax_c_like_keywords(src_match[1]);
+		if ( null === (quot_match = src_match[3].match(/([\s\S]*?)(&quot;|&#039;|\*\/)([\s\S]*)/))){
+			// 末尾が見つからなかったので終了
+			console.log('no match place');
+			dst += src_match[2];
+			dst += src_match[3];
+			src = '';
+			break;
+		}
+		// クオーテーションの間はすべて文字列扱いする(コメントも)
+		if (quot_match[2].search(/\*\//)){
+			color = '#aa0000';	// 文字列:赤
+		}else{
+			color = '#0800aa';	// コメント:青
+		}
+		dst += '<font color="' + color + '">' + src_match[2] + quot_match[1] + quot_match[2] + '</font>';
+		src = quot_match[3];
+	}
+	dst += src;
+
+	return dst;
+}
+
+
+function syntax_c_like_keywords(code){
+	// FIXME: 未実装
 	return code;
 }
 
