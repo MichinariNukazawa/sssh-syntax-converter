@@ -48,6 +48,8 @@ function conv(){
 	var kind_syntax = obj_syntax.options[obj_syntax.selectedIndex].value;
 	if (kind_syntax == 'html'){
 		code = syntax_html(code);
+	}else if (kind_syntax == 'js'){
+		code = syntax_js(code);
 	}else if (kind_syntax == 'c'){
 		code = syntax_c(code);
 	}else{
@@ -175,9 +177,9 @@ function syntax_js(code){
 	var keywords = new Array('break', 'case', 'catch', 'continue', 'debugger',
 			'default', 'delete', 'do', 'else', 'finally', 'for', 'function',
 			'if', 'instanceof', 'new', 'return', 'switch', 'this',
-			'throw', 'try', 'typeof', 'var', 'void', 'while', 'with');
-			//'in', 
-	// console.log('catch js:'+ code);
+			'throw', 'try', 'typeof', 'var', 'void', 'while', 'with', 'console',
+			'Image', 'Array', 'window', 'document', 'FileReader'
+			);
 	code = syntax_c_like(code, keywords);
 	return code;
 }
@@ -281,7 +283,7 @@ function syntax_c_like_keywords(code, keywords){
 	}
 	var src = code;
 	var dst = '';
-	var color = '#005c99';
+	var color = '#007777';
 
 	var keywords_joined = keywords[0];
 	for (var i = 1; i < keywords.length; i++){
