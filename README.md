@@ -2,7 +2,7 @@ SSSH -Standalone Static Syntax Highlight builder-
 ====================
 
 #Live Service (Github Pages)
-
+Use it now!  
 [SSSH -Standalone Static Syntax Highlight builder-][]  
 上記URLにて実際に使用することができます。  
 
@@ -10,16 +10,16 @@ SSSH -Standalone Static Syntax Highlight builder-
 #About
 
 SSSH converts a source code into static HTML.  
-This converts the HTML special characters in the source code into a tag.  
-This can post a simple syntax highlight.  
+ * This converts the HTML special characters in the source code into a tag.
+ * This can post a simple syntax highlight.
 The library reading such as [CodeMirror][] and [SyntaxHighlighter][] is not necessary.  
 
 
 #概要(About for Japanese)
 
 SSSHは、ソースコードを静的なHTMLに変換します。  
-ソースコードに含まれる、HTML特殊文字をタグに変換します。  
-簡単なシンタックスハイライトを付けることもできます。  
+ * ソースコードに含まれる、HTML特殊文字をタグに変換します。
+ * 簡単なシンタックスハイライトを付けることもできます。
 ソースコードを静的なHTMLとして出力するので、[CodeMirror][]や[SyntaxHighlighter][]のようにライブラリを読み込む必要はありません。  
 
 
