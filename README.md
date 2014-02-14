@@ -25,12 +25,12 @@ SSSHは、ソースコードを静的なHTMLに変換します。
 
 #その他(other)
 
-作者ブログによる[紹介記事][]  
+作者ブログによる[紹介記事][BlogPost]  
 (Explanation by the producer. for Japanese.)  
 
 
 [SSSH -Standalone Static Syntax Highlight builder-]: http://michinarinukazawa.github.io/sssh-syntax-converter/
 [CodeMirror]: http://codemirror.net/
 [SyntaxHighlighter]: http://alexgorbatchev.com/SyntaxHighlighter/
-[解説記事]: http://blog.michinari-nukazawa.com/2014/02/sssh-syntax-highlight-source-code.html
+[BlogPost]: http://blog.michinari-nukazawa.com/2014/02/sssh-syntax-highlight-source-code.html
 
